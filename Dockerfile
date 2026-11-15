@@ -1,4 +1,4 @@
-FROM node:20-alpine as build
+FROM node:20-alpine AS build
 
 #ENV NODE_ENV=production
 
@@ -24,10 +24,8 @@ RUN npm run build
 
 #RUN rm -f /etc/nginx/conf.d/default.conf
 
-#COPY nginx/frontend.conf /etc/nginx/conf.d/frontend.conf
 FROM nginx:1.31.8
-COPY nginx/frontend.conf /etc/nginx/conf.d/default.conf → COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
-##COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx/frontend.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /app/dist /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
