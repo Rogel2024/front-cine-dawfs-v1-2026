@@ -1,0 +1,19 @@
+FROM node:20-alpine
+
+ENV NODE_ENV=development
+
+WORKDIR /app
+
+COPY --chown=1000:1000 package*.json .
+
+RUN npm ci --legacy-peer-deps
+
+RUN chown -R 1000:1000 ./node_modules
+
+COPY --chown=1000:1000 . .
+
+EXPOSE 5173
+
+CMD [ "npx", "vite", "--host", "0.0.0.0", "--port", "5173", "--strictPort" ]
+#CMD [ "npx", "vite", "--node", "dev", "--host", "0.0.0.0", "--port", "5173", "--strictPort" ]
+# CMD [ "npn", "run", "dev", "--host", "0.0.0.0", "--port", "5173","strictPort" ]
